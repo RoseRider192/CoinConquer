@@ -1,0 +1,51 @@
+name: Build iOS IPA
+
+on:
+  push:
+    branches: [master, main]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.4'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          cd coin_conquer
+          flutter pub get
+
+      - name: Setup iOS pod
+        run: |
+          cd coin_conquer/ios
+          pod install --repo-update || pod install
+
+      - name: Build iOS (unsigned)
+        run: |
+          cd coin_conquer
+          flutter build ios --release --no-codesign
+
+      - name: Create IPA
+        run: |
+          cd coin_conquer
+          mkdir -p Payload
+          cp -r build/ios/Release-iphoneos/Runner.app Payload/
+          zip -r coin_conquer.ipa Payload/
+          rm -rf Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CoinConquer-iOS
+          path: coin_conquer/coin_conquer.ipa
+          retention-days: 90

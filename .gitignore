@@ -1,0 +1,29 @@
+# Flutter
+coin_conquer/build/
+coin_conquer/.dart_tool/
+coin_conquer/.flutter-plugins
+coin_conquer/.flutter-plugins-dependencies
+coin_conquer/.packages
+coin_conquer/ios/Pods/
+coin_conquer/ios/.symlinks/
+coin_conquer/ios/Flutter/Flutter.framework
+coin_conquer/ios/Flutter/App.framework
+coin_conquer/android/.gradle/
+coin_conquer/android/local.properties
+coin_conquer/android/key.properties
+coin_conquer/*.jks
+coin_conquer/*.keystore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.log
